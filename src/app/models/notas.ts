@@ -6,4 +6,7 @@ export interface Notas {
     practicaB: number,
     practicaC: number,
     promedio: number,
+    alumno?: string,
+    curso?: string,
+
 }

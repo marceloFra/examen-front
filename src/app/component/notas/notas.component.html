@@ -1,1 +1,88 @@
-<p>notas works!</p>
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Notas</mat-card-title>
+        </mat-card-header>
+        <mat-form-field appearance="fill">
+            <mat-label>Alumno</mat-label>
+            <mat-select formControlName="idAlumno">
+                <mat-option *ngFor="let al of alumno" [value]="al.idAlumno">{{al.nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['idAlumno'].errors">
+                Este campo es requerido
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Curso</mat-label>
+            <mat-select formControlName="idCurso">
+                <mat-option *ngFor="let al of curso" [value]="al.idCurso">{{al.nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['idCurso'].errors">
+                Este campo es requerido
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input formControlName="practicaA" matInput placeholder="Ingrese nota 1">
+            <mat-error *ngIf="form.controls['practicaA'].errors">
+                Este campo es requerido
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input formControlName="practicaB" matInput placeholder="Ingrese nota 2">
+            <mat-error *ngIf="form.controls['practicaB'].errors">
+                Este campo es requerido
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input formControlName="practicaC" matInput placeholder="Ingrese nota 3">
+            <mat-error *ngIf="form.controls['practicaC'].errors">
+                Este campo es requerido
+            </mat-error>
+        </mat-form-field>
+
+        <!--     <mat-form-field>
+            <input formControlName="promedio"   matInput placeholder="Promedio">
+        </mat-form-field>
+        -->
+        <button mat-raised-button color="primary">Grabar</button>
+
+    </mat-card>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Curso</th>
+            <th scope="col">Alumno</th>
+            <th scope="col">Nota 1</th>
+            <th scope="col">Nota 2</th>
+            <th scope="col">Nota 3</th>
+            <th scope="col">Promedio</th>
+            <th scope="col">Accion</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let n of notas">
+            <th scope="row">{{ n.idNota }}</th>
+            <td>{{n.curso}}</td>
+            <td>{{ n.alumno }}</td>
+            <td>{{ n.practicaA }}</td>
+            <td>{{ n.practicaB }}</td>
+            <td>{{ n.practicaC }}</td>
+            <td>{{ n.promedio }}</td>
+            <td>
+                <button type="button" class="btn btn-danger" (click)="deleteNota(n.idNota)">Eliminar</button>
+                <button type="button" class="btn btn-danger" (click)="getNotasById(n.idNota)">Editar</button>
+
+            </td>
+        </tr>
+
+    </tbody>
+</table>
