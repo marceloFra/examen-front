@@ -1,0 +1,26 @@
+@import '~@angular/material/theming';
+
+$primary: mat-palette($mat-indigo);
+
+:host {
+    height: 100vh;
+    background-color: #0997cf;
+    display: block;
+}
+
+// --background: linear-gradient(90deg, #1c3643, #273b47 25%, #1e5372);
+form {
+    width: 30%;
+    margin: 0px auto;
+    position: relative;
+    top: 20px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-card-actions {
+        display: flex;
+        justify-content: center;
+    }
+}

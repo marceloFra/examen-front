@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class NotasService {
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
   constructor(private http: HttpClient
   ) { }
@@ -34,7 +35,8 @@ export class NotasService {
     return this.http.get<Notas>(`http://localhost:54959/api/Notas/${id}`);
   }
 
-  update(id: number, nota: Notas) {
+  update(nota: Notas) {
+    let id = nota.idNota;
     return this.http.put<Notas>(`http://localhost:54959/api/Notas/${id}`, nota);
   }
 

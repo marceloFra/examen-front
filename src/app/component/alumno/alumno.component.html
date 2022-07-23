@@ -1,0 +1,64 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Registro</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col-xs">
+                    <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <input placeholder="nombre" formControlName="nombre" matInput type="text">
+                        <mat-error *ngIf="form.controls['nombre'].errors">
+                            Este campo es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs">
+                    <mat-form-field>
+                        <mat-label>Apellido Paterno</mat-label>
+                        <input placeholder="Apellido Paterno" formControlName="apellidoPaterno" matInput type="text">
+                        <mat-error *ngIf="form.controls['apellidoPaterno'].errors">
+                            Este campo es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs">
+                    <mat-form-field>
+                        <mat-label>Apellido Materno</mat-label>
+                        <input placeholder="Apellido Materno" formControlName="apellidoMaterno" matInput type="text">
+                        <mat-error *ngIf="form.controls['apellidoMaterno'].errors">
+                            Este campo es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs">
+                    <mat-form-field>
+                        <mat-label>Fecha Nacimiento</mat-label>
+                        <!-- <input placeholder="Fecha Nacimiento" formControlName="fechaNacimiento" matInput type="text">-->
+                        <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="form.controls['fechaNacimiento'].errors">
+                            Este campo es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button class="btn btn-success">Grabar</button>
+        </mat-card-actions>
+    </mat-card>
+
+</form>

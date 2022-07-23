@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { Alumno } from 'src/app/models/alumno';
@@ -18,9 +18,13 @@ export class NotasComponent implements OnInit {
   alumno: Alumno[] = [];
   curso: Curso[] = [];
   notas: Notas[] = [];
-  idNota!: number;
+  nota!: Notas;
+  idNota!: any;
   cursono!: string;
-
+  promedio: any;
+  pa = 0;
+  pb = 0;
+  pc = 0;
   constructor(
     private alumnoService: AlumnoService,
     private cursoService: CursoService,
@@ -30,7 +34,7 @@ export class NotasComponent implements OnInit {
   ) {
     this.buildForm();
     //   this.promedio = (this.nota1 + this.nota2 + this.nota3) / 3;
-    this.cargaNotas();
+    // this.cargaNotas();
   }
 
   ngOnInit(): void {
@@ -63,13 +67,17 @@ export class NotasComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
+      idNota: ['', []],
       idAlumno: ['', [Validators.required, Validators.minLength(1)]],
       idCurso: ['', [Validators.required, Validators.minLength(1)]],
       practicaA: ['', [Validators.required,/* Validators.minLength(5)*/]],
       practicaB: ['', [Validators.required, /*Validators.minLength(5)*/]],
       practicaC: ['', [Validators.required, /*Validators.minLength(5)*/]],
+      promedio: [null, new FormControl({ value: '', disabled: true })],
+
     });
   }
+
 
 
 
@@ -81,10 +89,9 @@ export class NotasComponent implements OnInit {
       .subscribe(rta => {
         console.log(rta);
         alert('creado correctamente');
-
+        this.cargaNotas();
       });
-    this.cargaNotas();
-    this.form.reset;
+
   }
 
   public getCurso(idCurso: number) {
@@ -99,8 +106,8 @@ export class NotasComponent implements OnInit {
     this.notasService.DeleteNotas(idNota)
       .subscribe(rta => {
         alert('eliminado correctamente');
+        this.cargaNotas();
       });
-    this.cargaNotas();
   }
 
 
@@ -127,40 +134,86 @@ export class NotasComponent implements OnInit {
   get f(): any {
     return this.form.controls;
   }
+
+
   private editarNota() {
     const data = this.form.value;
     console.log('crea lo sig');
     console.log(data);
-    this.notasService.update(this.idNota, data)
+    this.notasService.update(data)
       .subscribe(rta => {
         console.log(rta);
         alert('actualizado correctamente');
-
+        this.cargaNotas();
       });
-    this.cargaNotas();
     this.form.reset;
+    this.idNota = null;
   }
 
-  save() {
+  save(event: Event) {
+    event.preventDefault();
+    console.log('imprime el form');
+    console.log(this.form.valid)
+    console.log(this.form.value)
     if (this.form.valid) {
+      console.log('imprime el form valido');
+      console.log(this.form.value)
+      console.log('id de nota')
+      console.log(this.idNota)
       if (this.idNota) {
         this.editarNota();
       } else {
         this.createNotas();
       }
+      //this.form.statusChanges.subscribe = false;
+      console.log('imprime el form INVALIDO');
+      console.log(this.form.invalid)
+      this.f.idAlumno.clearValidators();
+      this.f.idCurso.clearValidators();
+      this.f.practicaA.clearValidators();
+      this.f.practicaB.clearValidators();
+      this.f.practicaC.clearValidators();
+      //this.form.clearValidators();
+      this.form.reset();
+      this.promedio = null;
+      //this.form.markAllAsTouched();
+
     } else {
       this.form.markAllAsTouched();
     }
-    this.cargaNotas();
 
-    this.f.idAlumno.clearValidators();
-    this.f.idCurso.clearValidators();
-    this.f.practicaA.clearValidators();
-    this.f.practicaB.clearValidators();
-    this.f.practicaC.clearValidators();
-    //this.form.clearValidators();
-    this.form.reset();
+    /*  if (this.form.valid) {
+        if (this.idNota) {
+          this.editarNota();
+        } else {
+          this.createNotas();
+        }
+      } else {
+        this.form.markAllAsTouched();
+      }
+  
+      this.f.idAlumno.clearValidators();
+      this.f.idCurso.clearValidators();
+      this.f.practicaA.clearValidators();
+      this.f.practicaB.clearValidators();
+      this.f.practicaC.clearValidators();
+      //this.form.clearValidators();
+      this.form.reset();
+      this.promedio = 0;
+  */
+  }
 
+  onKeypressEvent(event: any) {
+
+    this.pa = this.f.practicaA.value;
+    this.pb = this.f.practicaB.value;
+    this.pc = this.f.practicaC.value;
+    this.promedio = (Number(this.pa) + Number(this.pb) + Number(this.pc)) / 3;
+    this.f.promedio.value = this.promedio;
+    // console.log('promedioaaaaaaaaaaa');
+    //console.log(this.f.promedio.value);
+    console.log('nota');
+    console.log(this.form.value);
   }
 
 }

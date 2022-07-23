@@ -28,13 +28,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlumnoComponent } from './component/alumno/alumno.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotasComponent
+    NotasComponent,
+    AlumnoComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgbModule,
+    NgbPaginationModule, NgbAlertModule
 
   ],
   providers: [],

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="save()">
+<form [formGroup]="form" (ngSubmit)="save($event)">
     <mat-card>
         <mat-card-header>
             <mat-card-title>Notas</mat-card-title>
@@ -24,65 +24,73 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input formControlName="practicaA" matInput placeholder="Ingrese nota 1">
-            <mat-error *ngIf="form.controls['practicaA'].errors">
+            <input formControlName="practicaA" matInput placeholder="Ingrese nota 1" (keyup)="onKeypressEvent($event)">
+            <mat-error *ngIf=" form.controls['practicaA'].errors">
                 Este campo es requerido
             </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input formControlName="practicaB" matInput placeholder="Ingrese nota 2">
+            <input formControlName="practicaB" matInput placeholder="Ingrese nota 2" (keyup)="onKeypressEvent($event)">
             <mat-error *ngIf="form.controls['practicaB'].errors">
                 Este campo es requerido
             </mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input formControlName="practicaC" matInput placeholder="Ingrese nota 3">
+            <input formControlName="practicaC" matInput placeholder="Ingrese nota 3" (keyup)="onKeypressEvent($event)">
             <mat-error *ngIf="form.controls['practicaC'].errors">
                 Este campo es requerido
             </mat-error>
         </mat-form-field>
 
-        <!--     <mat-form-field>
-            <input formControlName="promedio"   matInput placeholder="Promedio">
+        <mat-form-field>
+            <input formControlName="promedio" matInput [readonly]="true" placeholder="Promedio"
+                value="{{  promedio | number : '1.2-2'}}">
         </mat-form-field>
-        -->
-        <button mat-raised-button color="primary">Grabar</button>
+
+        <button [disabled]="form.invalid" mat-raised-button class="btn btn-success">Grabar</button>
 
     </mat-card>
 </form>
 
+<br>
+<br>
+<div style="width: 700px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Curso</th>
+                <th scope="col">Alumno</th>
+                <th scope="col">Nota 1</th>
+                <th scope="col">Nota 2</th>
+                <th scope="col">Nota 3</th>
+                <th scope="col">Promedio</th>
+                <th scope="col">Accion</th>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Curso</th>
-            <th scope="col">Alumno</th>
-            <th scope="col">Nota 1</th>
-            <th scope="col">Nota 2</th>
-            <th scope="col">Nota 3</th>
-            <th scope="col">Promedio</th>
-            <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let n of notas">
+                <th scope="row">{{ n.idNota }}</th>
+                <td>{{n.curso}}</td>
+                <td>{{ n.alumno }}</td>
+                <td>{{ n.practicaA }}</td>
+                <td>{{ n.practicaB }}</td>
+                <td>{{ n.practicaC }}</td>
+                <td>{{ n.promedio }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteNota(n.idNota)"><i
+                            class="bi bi-trash3-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="getNotasById(n.idNota)"><i
+                            class="bi bi-pencil-square"></i>
+                    </button>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let n of notas">
-            <th scope="row">{{ n.idNota }}</th>
-            <td>{{n.curso}}</td>
-            <td>{{ n.alumno }}</td>
-            <td>{{ n.practicaA }}</td>
-            <td>{{ n.practicaB }}</td>
-            <td>{{ n.practicaC }}</td>
-            <td>{{ n.promedio }}</td>
-            <td>
-                <button type="button" class="btn btn-danger" (click)="deleteNota(n.idNota)">Eliminar</button>
-                <button type="button" class="btn btn-danger" (click)="getNotasById(n.idNota)">Editar</button>
+                </td>
+            </tr>
 
-            </td>
-        </tr>
-
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
